@@ -42,3 +42,7 @@ Route::get('/unit', 'UnitMasterfileController@index')->name('unit');
 // Color Masterfile
 
 Route::get('/color', 'ColorMasterfileController@index')->name('color');
+
+// Class Masterfile
+
+Route::get('/classification', 'ClassificationMasterfileController@index')->name('classification');

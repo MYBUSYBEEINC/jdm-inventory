@@ -56,7 +56,7 @@
                                     <a href="{{route('color')}}">Color Masterfile</a>
                                 </li>
                                 <li>
-                                    <a href="#">Class Masterfile</a>
+                                    <a href="{{route('classification')}}">Class Masterfile</a>
                                 </li>
                                 <li>
                                     <a href="#">Sub Category Masterfile</a>
