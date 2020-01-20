@@ -53,7 +53,7 @@
                                     <a href="{{route('unit')}}">Unit Masterfile</a>
                                 </li>
                                 <li>
-                                    <a href="#">Color Masterfile</a>
+                                    <a href="{{route('color')}}">Color Masterfile</a>
                                 </li>
                                 <li>
                                     <a href="#">Class Masterfile</a>

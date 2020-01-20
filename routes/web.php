@@ -38,3 +38,7 @@ Route::get('/brand', 'BrandMasterfileController@index')->name('brand');
 //Unit Masterfile
 
 Route::get('/unit', 'UnitMasterfileController@index')->name('unit');
+
+// Color Masterfile
+
+Route::get('/color', 'ColorMasterfileController@index')->name('color');
