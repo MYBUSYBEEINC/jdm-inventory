@@ -14,7 +14,8 @@ class ColorMasterfileController extends Controller
      */
     public function index()
     {
-        return view('color.index');
+        $data['colors'] = Color::paginate(10);
+        return view('color.index', $data);
     }
 
     /**
@@ -35,7 +36,15 @@ class ColorMasterfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'color_name' => 'required',
+        ]);
+
+        $color = new Color;
+        $color->color_name = $request['color_name'];
+        $color->save();
+
+        return back();
     }
 
     /**
@@ -67,10 +76,33 @@ class ColorMasterfileController extends Controller
      * @param  \App\Color  $color
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Color $color)
+
+    public function editupdate($id)
     {
-        //
+        
+        $data['colors'] = Color::find($id);
+        return view('color.update', $data);
     }
+
+    public function update(Request $request, $id)
+    {
+        
+        $this->validate($request, [
+            'color_id'  => 'required',
+            'color_name'  => 'required'
+        ]);
+
+        $color = Color::find($id);
+        $color = $request['color_name'];
+
+
+        $color->unit_name = $unit_name;
+
+        $unit->save();
+
+        return back();
+    }
+
 
     /**
      * Remove the specified resource from storage.

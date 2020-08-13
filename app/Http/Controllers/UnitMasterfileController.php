@@ -14,7 +14,8 @@ class UnitMasterfileController extends Controller
      */
     public function index()
     {
-        return view('unit.index');
+        $data['units'] = Unit::paginate(10);
+        return view('unit.index', $data);
     }
 
     /**
@@ -35,7 +36,17 @@ class UnitMasterfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'unit_code' => 'required',
+            'unit_name' => 'required',
+        ]);
+
+        $unit = new Unit;
+        $unit->unit_code = $request['unit_code'];
+        $unit->unit_name = $request['unit_name'];
+        $unit->save();
+
+        return back();
     }
 
     /**
@@ -67,9 +78,32 @@ class UnitMasterfileController extends Controller
      * @param  \App\Unit  $unit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Unit $unit)
+    public function editupdate($id)
     {
-        //
+        
+        $data['units'] = Unit::find($id);
+        return view('unit.update', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+        $this->validate($request, [
+            'unit_code'  => 'required',
+            'unit_name'  => 'required'
+        ]);
+
+        $unit = Unit::find($id);
+        $unit_code  = $request['unit_code'];
+        $unit_name = $request['unit_name'];
+
+
+        $unit->unit_code = $unit_code;
+        $unit->unit_name = $unit_name;
+
+        $unit->save();
+
+        return back();
     }
 
     /**

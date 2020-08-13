@@ -14,7 +14,8 @@ class BrandMasterfileController extends Controller
      */
     public function index()
     {
-        return view('brand.index');
+        $data['brands'] = Brand::paginate(10);
+        return view('brand.index', $data);
     }
 
     /**
@@ -35,7 +36,15 @@ class BrandMasterfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'brand_name' => 'required',
+        ]);
+
+        $brand = new Brand;
+        $brand->brand_name = $request['brand_name'];
+        $brand->save();
+
+        return back();
     }
 
     /**
@@ -67,9 +76,29 @@ class BrandMasterfileController extends Controller
      * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand)
+
+    public function editupdate($id)
     {
-        //
+        
+        $data['brands'] = Brand::find($id);
+        return view('brand.update', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+        $this->validate($request, [
+            'brand_name'  => 'required',
+        ]);
+
+        $brand = Brand::find($id);
+        $brand_name = $request['brand_name'];
+
+        $brand->brand_name = $brand_name;
+
+        $brand->save();
+
+        return back();
     }
 
     /**
@@ -81,5 +110,5 @@ class BrandMasterfileController extends Controller
     public function destroy(Brand $brand)
     {
         //
-    }
+    }  
 }

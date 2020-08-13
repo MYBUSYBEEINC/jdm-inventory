@@ -14,7 +14,8 @@ class CategoryMasterfileController extends Controller
      */
     public function index()
     {
-        return view('category.index');
+        $data['categories'] = Category::paginate(10);
+        return view('category.index', $data);
     }
 
     /**
@@ -35,7 +36,17 @@ class CategoryMasterfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'category_code' => 'required',
+            'category_name' => 'required',
+        ]);
+
+        $category = new Category;
+        $category->category_code = $request['category_code'];
+        $category->category_name = $request['category_name'];
+        $category->save();
+
+        return back();
     }
 
     /**
@@ -67,9 +78,33 @@ class CategoryMasterfileController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+
+    public function editupdate($id)
     {
-        //
+        
+        $data['categories'] = Category::find($id);
+        return view('category.update', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        
+        $this->validate($request, [
+            'category_code' => 'required',
+            'category_name'  => 'required',
+        ]);
+
+        $category = Category::find($id);
+        $category_code = $request['category_code'];
+        $category_name = $request['category_name'];
+
+
+        $category->category_code = $category_code;
+        $category->category_name = $category_name;
+
+        $category->save();
+
+        return back();
     }
 
     /**

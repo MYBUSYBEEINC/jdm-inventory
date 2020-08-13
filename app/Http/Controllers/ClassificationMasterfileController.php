@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Subcategory;
 use App\Classification;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class ClassificationMasterfileController extends Controller
      */
     public function index()
     {
-        return view('classification.index');
+        $data['classifications'] = Classification::paginate(10);
+        $data['subcategories']   = Subcategory::all();
+        return view('classification.index', $data);
     }
 
     /**
@@ -35,7 +38,19 @@ class ClassificationMasterfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'classification_code' => 'required',
+            'classification_name' => 'required',
+            'subcategory_id'      => 'required',
+        ]);
+
+        $classification = new Classification;
+        $classification->classification_code = $request['classification_code'];
+        $classification->classification_name = $request['classification_name'];
+        $classification->subcategory_id      = $request['subcategory_id'];
+        $classification->save();
+
+        return back();
     }
 
     /**
@@ -67,11 +82,35 @@ class ClassificationMasterfileController extends Controller
      * @param  \App\Classification  $classification
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Classification $classification)
+    public function editupdate($id)
     {
-        //
+        
+        $data['classifications'] = Classification::with('subcategory')->find($id);
+        return view('classification.update', $data);
     }
 
+    public function update(Request $request, $id)
+    {
+        
+        $this->validate($request, [
+            'class_code',
+            'class_name',
+            'subcategory_id'
+        ]);
+
+        $qwertyy = Classification::find($id);
+        
+        $class_code = $request['class_code'];
+        $class_name = $request['class_name'];
+        $subcategory_id = $request['subcategory_id'];
+        
+        $qwertyy->classification_code = $class_code;
+        $qwertyy->classification_name = $class_name;
+        $qwertyy->subcategory_id = $subcategory_id;
+
+        $qwertyy->save();
+        return back();
+    }
     /**
      * Remove the specified resource from storage.
      *
